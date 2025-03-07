@@ -6,7 +6,8 @@ Aplikacja pozwala na analizę danych, która opiera się na przekazaniu trzech a
 2. Ścieżka do pliku `training_data.txt` (String) - Plik zawierający dane treningowe.
 3. Ścieżka do pliku `newData.txt` (String) - Plik zawierający nowe dane do analizy.
 
-## Jak uruchomić?
+## Usage
+Opcjonalnie można wygenerować test skryptem testGen.py.
 
 Aby uruchomić aplikację, należy wywołać metodę `main` z trzema argumentami:
 
