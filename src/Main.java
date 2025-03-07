@@ -20,7 +20,7 @@ public class Main {
                 .collect(Collectors.groupingBy(
                         Map.Entry::getValue,
                         TreeMap::new,
-                        Collectors.mapping(Map.Entry::getKey, Collectors.toList()) // Zapisanie kluczy jako lista
+                        Collectors.mapping(Map.Entry::getKey, Collectors.toList())
                 ));
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("output.txt"))) {
             groupedByValue.entrySet().stream()
@@ -74,15 +74,6 @@ public class Main {
         return sqrt(res);
     }
 
-    public static double scalar(Vector<Integer> v, Vector<Integer> w) {
-        if (v.size() != w.size()) throw new RuntimeException("xd");
-        double res = 0;
-        for (int i = 0; i < v.size(); i++) {
-            res += v.get(i) * w.get(i);
-        }
-        return res;
-    }
-
     public static void preprocess(String args[], HashMap<Vector<Double>, String> map, ArrayList<Vector<Double>> preprocessedVectors, ArrayList<Vector<Double>> newVectors) {
         try {
             BufferedReader br = new BufferedReader(new FileReader(args[1]));
@@ -102,7 +93,7 @@ public class Main {
             br.close();
             br = new BufferedReader((new FileReader(args[2])));
             while ((line = br.readLine()) != null) {
-                String[] tokens = line.split(" ");
+                String[] tokens = line.split(",");
                 Vector<Double> vector = new Vector<>();
                 for (String token : tokens) {
                     vector.add(Double.parseDouble(token));

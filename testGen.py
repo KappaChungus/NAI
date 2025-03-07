@@ -1,13 +1,29 @@
 import random
 
-# Open the file in write mode
+def load_training_data(filename):
+    training_data = []
+    with open(filename, 'r') as file:
+        for line in file:
+            parts = line.strip().split(',')
+            vector = list(map(float, parts[:-1]))
+            group = parts[-1]
+            training_data.append((vector, group))
+    return training_data
+
+def generate_vector_near_group(training_data):
+    vector, group = random.choice(training_data)
+    noisy_vector = [
+        round(max(v + random.uniform(-0.3, 0.3), 0.1), 1)  # szum od -0.3 do 0.3, ale wartość nie mniejsza niż 0.1
+        for v in vector
+    ]
+    return noisy_vector
+
+training_data = load_training_data('train_data.txt')
+
 with open('random_vectors.txt', 'w') as file:
-    # Generate 30 lines of 4 random numbers each (approximate ranges based on your dataset)
     for _ in range(30):
-        # Generate 4 random numbers similar to your dataset
-        # First three features between 4.0 and 7.9, last feature between 0.1 and 2.5
-        line = f"{random.uniform(4.0, 7.9):.1f} {random.uniform(2.0, 4.5):.1f} {random.uniform(1.0, 6.9):.1f} {random.uniform(0.1, 2.5):.1f}"
-        # Write the line to the file followed by a newline character
+        vector = generate_vector_near_group(training_data)
+        line = f"{vector[0]},{vector[1]},{vector[2]},{vector[3]}"
         file.write(line + '\n')
 
-print("Random vectors saved to 'random_vectors'.")
+print("Random vectors saved to 'random_vectors.txt'.")
