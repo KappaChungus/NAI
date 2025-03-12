@@ -1,32 +1,29 @@
 import java.io.*;
 import java.util.*;
-import java.util.stream.Collectors;
-
-import static java.lang.Math.sqrt;
 
 public class Main {
     public static void main(String[] args) {
         int k = Integer.parseInt(args[0]);
         HashMap<Vector<Double>, String> trainVectors = preprocess(args[1]);
-        HashMap<Vector<Double>, String> testVectors = preprocess(args[2]);;
-        System.out.println(knn(trainVectors,testVectors,k));
+        HashMap<Vector<Double>, String> testVectors = preprocess(args[2]);
+        System.out.println(Math.round(100 * knn(trainVectors, testVectors, k)) + "%");
     }
 
-    private static double knn(HashMap<Vector<Double>, String> trainVectors,HashMap<Vector<Double>, String> testVectors, int k) {
+    private static double knn(HashMap<Vector<Double>, String> trainVectors, HashMap<Vector<Double>, String> testVectors, int k) {
         int res = 0;
-        for(Vector<Double> v: testVectors.keySet()) {
-            kClosest closestVectors = new kClosest(k,v);
-            for(Vector<Double> w :trainVectors.keySet()) {
+        for (Vector<Double> v : testVectors.keySet()) {
+            kClosest closestVectors = new kClosest(k, v);
+            for (Vector<Double> w : trainVectors.keySet()) {
                 closestVectors.add(w);
             }
             Set<Vector<Double>> closestSet = closestVectors.getClosestSet();
-            if(findDominant(closestSet,trainVectors).equals(testVectors.get(v)))
+            if (findDominant(closestSet, trainVectors).equals(testVectors.get(v)))
                 res++;
         }
-        return (double) res /testVectors.size();
+        return (double) res / testVectors.size();
     }
 
-    private static String findDominant(Set<Vector<Double>> closestSet,HashMap<Vector<Double>, String> map) {
+    private static String findDominant(Set<Vector<Double>> closestSet, HashMap<Vector<Double>, String> map) {
         HashMap<String, Integer> frequencyMap = new HashMap<>();
         for (Vector<Double> v : closestSet) {
             String label = map.get(v);
@@ -39,7 +36,7 @@ public class Main {
                 .orElse(null);
     }
 
-    private static HashMap<Vector<Double>, String>  preprocess(String filepath) {
+    private static HashMap<Vector<Double>, String> preprocess(String filepath) {
         HashMap<Vector<Double>, String> map = new HashMap<>();
         try {
             BufferedReader br = new BufferedReader(new FileReader(filepath));

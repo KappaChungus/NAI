@@ -6,6 +6,7 @@ public class kClosest {
     private final int k;
     TreeSet<Vector<Double>> closestSet;
     Vector<Double> initial;
+
     kClosest(int k, Vector<Double> initial) {
         this.initial = initial;
         closestSet = new TreeSet<>(Comparator.comparingDouble(v -> dist(initial, v)));
@@ -13,9 +14,9 @@ public class kClosest {
         this.k = k;
     }
 
-    void add(Vector<Double> v){
+    void add(Vector<Double> v) {
         closestSet.add(v);
-        if(closestSet.size()>k)
+        if (closestSet.size() > k)
             closestSet.pollLast();
     }
 
