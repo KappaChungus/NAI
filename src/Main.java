@@ -1,15 +1,13 @@
+import javax.swing.*;
 import java.io.*;
 import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        int k = Integer.parseInt(args[0]);
-        HashMap<Vector<Double>, String> trainVectors = preprocess(args[1]);
-        HashMap<Vector<Double>, String> testVectors = preprocess(args[2]);
-        System.out.println(Math.round(100 * knn(trainVectors, testVectors, k)) + "%");
+        SwingUtilities.invokeLater(GUI::new);
     }
 
-    private static double knn(HashMap<Vector<Double>, String> trainVectors, HashMap<Vector<Double>, String> testVectors, int k) {
+    public static double knn(HashMap<Vector<Double>, String> trainVectors, HashMap<Vector<Double>, String> testVectors, int k) {
         int res = 0;
         for (Vector<Double> v : testVectors.keySet()) {
             kClosest closestVectors = new kClosest(k, v);
@@ -23,7 +21,7 @@ public class Main {
         return (double) res / testVectors.size();
     }
 
-    private static String findDominant(Set<Vector<Double>> closestSet, HashMap<Vector<Double>, String> map) {
+    public static String findDominant(Set<Vector<Double>> closestSet, HashMap<Vector<Double>, String> map) {
         HashMap<String, Integer> frequencyMap = new HashMap<>();
         for (Vector<Double> v : closestSet) {
             String label = map.get(v);
@@ -36,7 +34,7 @@ public class Main {
                 .orElse(null);
     }
 
-    private static HashMap<Vector<Double>, String> preprocess(String filepath) {
+    public static HashMap<Vector<Double>, String> preprocess(String filepath) {
         HashMap<Vector<Double>, String> map = new HashMap<>();
         try {
             BufferedReader br = new BufferedReader(new FileReader(filepath));
